@@ -1,18 +1,19 @@
 package com.felipe.test.inloco
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.liveData
+import com.felipe.test.inloco.model.Position
+import com.felipe.test.inloco.repository.WeatherRepository
 import com.google.android.gms.maps.model.LatLng
+import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
 
-class MapViewModel @Inject constructor() : ViewModel() {
+class MapViewModel @Inject constructor(
+    private val repository: WeatherRepository
+) : ViewModel() {
 
-    private var pos: LatLng? = null
-
-    fun searchSelectedNearbyPlaces() {
-
-    }
-
-    fun onMapClicked(pos: LatLng) {
-        this.pos = pos
+    fun searchSelectedNearbyPlaces(pos: LatLng) = liveData(Dispatchers.IO) {
+        val result = repository.getCityList(Position(pos.latitude, pos.longitude))
+        emit(result)
     }
 }

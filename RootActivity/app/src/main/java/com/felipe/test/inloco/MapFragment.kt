@@ -3,16 +3,19 @@ package com.felipe.test.inloco
 import android.annotation.SuppressLint
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import com.felipe.test.inloco.di.injector
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.map_fragment.*
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
 
@@ -26,6 +29,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     private var map: GoogleMap? = null
 
+    private var point: LatLng? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,8 +41,15 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         fab.setOnClickListener { view ->
-            map?.let {
-                viewModel.searchSelectedNearbyPlaces()
+            map?.let {_ ->
+                point?.let {
+                    viewModel.searchSelectedNearbyPlaces(it).observe(this, Observer {
+                        Log.d("TAG", "HOLAAA")
+                    })
+                } ?: run {
+                    Snackbar.make(view,getString(R.string.error_no_selected_point), Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show()
+                }
             } ?: run {
                 Snackbar.make(view, getString(R.string.error_map_loading), Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
@@ -60,7 +72,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         map.setOnMapClickListener {
             map.clear()
             map.addMarker(MarkerOptions().position(it))
-            viewModel.onMapClicked(it)
+            point = it
         }
 
         // Acquire a reference to the system Location Manager
