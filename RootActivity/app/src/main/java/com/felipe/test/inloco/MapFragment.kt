@@ -20,14 +20,11 @@ import com.google.android.gms.maps.model.MarkerOptions
 
 class MapFragment : Fragment(), OnMapReadyCallback {
 
-    private lateinit var viewModel: MapViewModel
-    private var map: GoogleMap? = null
-
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(MapViewModel::class.java)
+    private val viewModel by lazy {
+        ViewModelProviders.of(this, injector.mapViewModelFactory()).get(MapViewModel::class.java)
     }
+
+    private var map: GoogleMap? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -1,9 +1,5 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
-apply plugin: 'kotlin-android-extensions'
-
 apply plugin: 'kotlin-kapt'
 
 android {
@@ -22,6 +18,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+}
+
+kapt {
+    generateStubs = true
 }
 
 dependencies {
@@ -49,12 +49,18 @@ dependencies {
 
     //dagger
     implementation "com.google.dagger:dagger:$dagger_version"
+    //implementation "com.google.dagger:dagger-android:$dagger_version"
+    //implementation "com.google.dagger:dagger-android-support:$dagger_version"
     annotationProcessor "com.google.dagger:dagger-compiler:$dagger_version"
-    implementation "com.google.dagger:dagger-android:$dagger_version"
-    implementation "com.google.dagger:dagger-android-support:$dagger_version"
-    annotationProcessor "com.google.dagger:dagger-android-processor:$dagger_version"
+    //annotationProcessor "com.google.dagger:dagger-android-processor:$dagger_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
+    //kapt "com.google.dagger:dagger-android-processor:$dagger_version"
 
     //retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.6.1'
+    implementation "com.squareup.retrofit2:converter-gson:2.6.1"
 
 }
+
+//apply plugin: 'com.google.gms.google-services'
+apply plugin: 'kotlin-android-extensions'
