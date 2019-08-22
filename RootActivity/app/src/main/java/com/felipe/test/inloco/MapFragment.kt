@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.felipe.test.inloco.di.injector
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.map_fragment.*
@@ -44,7 +45,10 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             map?.let {_ ->
                 point?.let {
                     viewModel.searchSelectedNearbyPlaces(it).observe(this, Observer {
-                        Log.d("TAG", "HOLAAA")
+                        it?.let { list ->
+                            val direc = MapFragmentDirections.actionMapFragmentToCityListFragment(list.toTypedArray())
+                            findNavController().navigate(direc)
+                        }
                     })
                 } ?: run {
                     Snackbar.make(view,getString(R.string.error_no_selected_point), Snackbar.LENGTH_LONG)

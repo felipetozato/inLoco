@@ -9,5 +9,19 @@
         android:id="@+id/mapFragment"
         android:name="com.felipe.test.inloco.MapFragment"
         android:label="MapFragment"
-        tools:layout="@layout/map_fragment"/>
+        tools:layout="@layout/map_fragment">
+        <action
+            android:id="@+id/action_mapFragment_to_cityListFragment"
+            app:destination="@id/cityListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/cityListFragment"
+        android:name="com.felipe.test.inloco.CityListFragment"
+        android:label="fragment_citylist_list"
+        tools:layout="@layout/fragment_citylist_list">
+        <argument
+            android:name="list"
+            app:argType="com.felipe.test.inloco.model.WeatherCityInfo[]"
+            app:nullable="true"/>
+    </fragment>
 </navigation>
