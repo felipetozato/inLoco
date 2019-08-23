@@ -38,6 +38,7 @@ class MyCityListRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = mValues[position]
+
         holder.mContentView.text = item.name
 
         with(holder.mView) {

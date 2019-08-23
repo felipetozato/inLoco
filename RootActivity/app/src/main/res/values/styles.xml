@@ -14,4 +14,18 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="AppTheme.TextLabel" parent="TextAppearance.AppCompat.Caption">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textAlignment">textStart</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="AppTheme.TextField" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textAlignment">textStart</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
 </resources>

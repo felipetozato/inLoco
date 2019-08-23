@@ -18,8 +18,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-
-
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
 class MapFragment : Fragment(), OnMapReadyCallback {
@@ -79,11 +78,5 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             point = it
         }
 
-        // Acquire a reference to the system Location Manager
-//        val locationManager = getSystemService(requireContext(), LocationManager::class.java) as LocationManager
-//        val location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
-//
-//        map.moveCamera(CameraUpdateFactory.newLatLngZoom(
-//            LatLng(location.latitude, location.longitude), 15f))
     }
 }

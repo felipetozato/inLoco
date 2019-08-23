@@ -4,4 +4,12 @@
     <string name="google_maps_key">AIzaSyCFT-A2UFrd5zexBLpg3EWoH9a0-Th71vo</string>
     <string name="error_map_loading">Houve um problema ao carregar o mapa.</string>
     <string name="error_no_selected_point">Nenhum ponto selecionado. Por favor selecione um ponto no mapa primeiro</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="weather_detail_max_temp">Temperatura Máxima</string>
+    <string name="weather_detail_min_temp">Temperatura Mínima</string>
+    <string name="weather_detail_description">Descrição do Tempo</string>
+    <string name="citylist_nearby_cities">Cidades Próximas</string>
+    <string name="temp_not_informed">Temperatura não informada</string>
 </resources>

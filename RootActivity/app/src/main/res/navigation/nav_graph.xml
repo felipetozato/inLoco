@@ -22,6 +22,19 @@
         <argument
             android:name="list"
             app:argType="com.felipe.test.inloco.model.WeatherCityInfo[]"
-            app:nullable="true"/>
+            app:nullable="false"/>
+        <action
+            android:id="@+id/action_cityListFragment_to_cityWeatherDetailFragment"
+            app:destination="@id/cityWeatherDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/cityWeatherDetailFragment"
+        android:name="com.felipe.test.inloco.CityWeatherDetailFragment"
+        android:label="fragment_city_weather_detail"
+        tools:layout="@layout/fragment_city_weather_detail">
+        <argument
+            android:name="weatherInfo"
+            app:argType="com.felipe.test.inloco.model.WeatherCityInfo"
+            app:nullable="false"/>
     </fragment>
 </navigation>

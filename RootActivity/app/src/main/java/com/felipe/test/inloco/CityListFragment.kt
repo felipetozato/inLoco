@@ -1,63 +1,53 @@
 package com.felipe.test.inloco
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 
 import com.felipe.test.inloco.model.WeatherCityInfo
+import androidx.recyclerview.widget.DividerItemDecoration
+import kotlinx.android.synthetic.main.fragment_citylist_list.*
 
-/**
- * A fragment representing a list of Items.
- * Activities containing this fragment MUST implement the
- * [CityListFragment.OnListFragmentInteractionListener] interface.
- */
+
 class CityListFragment : Fragment(), MyCityListRecyclerViewAdapter.OnListInteractionListener {
 
     private lateinit var list: Array<WeatherCityInfo>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         arguments?.let {
-            list = it.getParcelableArray(ARG_LIST) as Array<WeatherCityInfo>
+            list = CityListFragmentArgs.fromBundle(it).list
         }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_citylist_list, container, false)
+    ): View? =
+        inflater.inflate(R.layout.fragment_citylist_list, container, false)
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         // Set the adapter
-        if (view is RecyclerView) {
-            with(view) {
-                layoutManager = LinearLayoutManager(context)
-                adapter = MyCityListRecyclerViewAdapter(list, this@CityListFragment)
-            }
+        with(recyclerViewList) {
+            val layout = LinearLayoutManager(context)
+            layoutManager = layout
+            adapter = MyCityListRecyclerViewAdapter(list, this@CityListFragment)
+            val dividerItemDecoration = DividerItemDecoration(context, layout.orientation)
+            this.addItemDecoration(dividerItemDecoration)
         }
-        return view
     }
 
     override fun onItemClicked(weatherCityInfo: WeatherCityInfo) {
-
-    }
-
-    companion object {
-
-        const val ARG_LIST = "list"
-
-        @JvmStatic
-        fun newInstance(list: List<WeatherCityInfo>) =
-            CityListFragment().apply {
-                arguments = Bundle().apply {
-                    putParcelableArray(ARG_LIST, list.toTypedArray())
-                }
-            }
+        val directions = CityListFragmentDirections.
+            actionCityListFragmentToCityWeatherDetailFragment(weatherCityInfo)
+        findNavController().navigate(directions)
     }
 
 }
