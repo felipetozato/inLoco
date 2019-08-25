@@ -1,24 +1,24 @@
 package com.felipe.test.inloco
 
-import android.annotation.SuppressLint
+import android.Manifest
+import android.content.pm.PackageManager
+import android.location.LocationManager
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.felipe.test.inloco.di.injector
+import com.google.android.gms.maps.*
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.map_fragment.*
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
 class MapFragment : Fragment(), OnMapReadyCallback {
@@ -68,7 +68,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         mapFragment.getMapAsync(this)
     }
 
-    @SuppressLint("MissingPermission")
     override fun onMapReady(map: GoogleMap) {
         this.map = map
 
@@ -78,5 +77,37 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             point = it
         }
 
+        centerMap()
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (grantResults.all { granted -> granted == PackageManager.PERMISSION_GRANTED }) {
+            centerMap()
+        }
+    }
+
+    private fun checkPermission() =
+        ContextCompat.checkSelfPermission(this.requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
+
+    companion object {
+        private val REQUIRED_PERMISSION = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
+        private const val REQUEST_CODE = 100
+    }
+
+    private fun centerMap() {
+        if(checkPermission()) {
+            val locationManager = getSystemService(requireContext(), LocationManager::class.java) as LocationManager
+            val location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+
+            map?.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                LatLng(location.latitude, location.longitude), 15f))
+        } else {
+            requestPermissions(REQUIRED_PERMISSION, REQUEST_CODE)
+        }
     }
 }

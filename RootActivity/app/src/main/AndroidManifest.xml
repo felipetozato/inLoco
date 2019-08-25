@@ -3,8 +3,23 @@
     package="com.felipe.test.inloco" >
 
 
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- Required for connectivity access -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <!-- Required for location services -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <!-- Improves location accuracy and battery consumption -->
+    <uses-permission  android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION"/>
+
+    <!-- Allows the SDK to restart itself after the device is rebooted -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+
+    <!-- For apps targeting Android Pie (28) and higher only -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:name=".AppAplication"
@@ -25,6 +40,18 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-9472116473130573~7847229530"/>
+
+        <meta-data
+            android:name="com.google.android.gms.ads.AD_MANAGER_APP"
+            android:value="true"/>
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="@string/default_notification_channel_id" />
+
         <activity
                 android:name=".RootActivity"
                 android:label="@string/app_name"
@@ -35,6 +62,15 @@
                     <category android:name="android.intent.category.LAUNCHER" />
                 </intent-filter>
         </activity>
+
+        <service
+            android:name=".FCMService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
     </application>
 
 </manifest>

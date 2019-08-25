@@ -1,18 +1,20 @@
 package com.felipe.test.inloco
 
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
-import android.view.MenuItem
-
-import kotlinx.android.synthetic.main.root_activity.*
+import com.google.android.gms.common.GoogleApiAvailability
 
 class RootActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.root_activity)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        GoogleApiAvailability.getInstance().makeGooglePlayServicesAvailable(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
