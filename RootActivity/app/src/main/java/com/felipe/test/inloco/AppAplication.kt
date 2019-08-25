@@ -12,6 +12,8 @@ import com.google.android.gms.ads.initialization.OnInitializationCompleteListene
 import com.google.android.gms.ads.MobileAds
 import androidx.core.content.ContextCompat.getSystemService
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import android.util.Log
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.iid.FirebaseInstanceId
 import com.inlocomedia.android.engagement.request.FirebasePushProvider
 
@@ -53,13 +55,24 @@ class AppAplication: Application(), DaggerComponentProvider {
 
     private fun getToken() {
         // Retrieve the Firebase token
-        val firebaseToken = FirebaseInstanceId.getInstance().token
+        FirebaseInstanceId.getInstance().instanceId
+            .addOnCompleteListener(OnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    Log.d("TAG", "getInstanceId failed", task.exception)
+                    return@OnCompleteListener
+                }
 
-        if (firebaseToken != null && firebaseToken.isNotEmpty()) {
-            val pushProvider = FirebasePushProvider.Builder()
-                .setFirebaseToken(firebaseToken)
-                .build()
-            InLocoEngagement.setPushProvider(this, pushProvider)
-        }
+                // Get new Instance ID token
+                val token = task.result?.token
+
+                // Log and toast
+                Log.d("TAG", token)
+                if (token != null && token.isNotEmpty()) {
+                    val pushProvider = FirebasePushProvider.Builder()
+                        .setFirebaseToken(token)
+                        .build()
+                    InLocoEngagement.setPushProvider(this, pushProvider)
+                }
+            })
     }
 }

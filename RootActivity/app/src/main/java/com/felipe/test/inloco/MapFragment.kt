@@ -85,7 +85,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (grantResults.all { granted -> granted == PackageManager.PERMISSION_GRANTED }) {
             centerMap()
         }
