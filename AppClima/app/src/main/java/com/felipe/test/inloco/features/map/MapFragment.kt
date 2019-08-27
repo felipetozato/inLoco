@@ -105,7 +105,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             val location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
 
             map?.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                LatLng(location.latitude, location.longitude), 15f))
+                LatLng(location.latitude, location.longitude), 12f))
         } else {
             requestPermissions(
                 REQUIRED_PERMISSION,
