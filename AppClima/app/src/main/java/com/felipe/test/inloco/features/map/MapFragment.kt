@@ -70,6 +70,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+        if (point == null) fab.hide() else fab.show()
     }
 
     override fun onMapReady(map: GoogleMap) {
